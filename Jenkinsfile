@@ -17,7 +17,7 @@ pipeline{
                 environment name: 'env', value: 'production'
             }
             steps{
-                withAWS(credentials: 'awscreds', region: "${env.AWS_DEFAULT_REGION})" {
+                withAWS(credentials: 'awscreds', region: "${env.AWS_DEFAULT_REGION}") {
                 script {
 
                     env.STACKID = sh(label:'',script:"aws cloudformation create-stack --stack-name demoec2instance --template-body file://deploy_ec2_network.json --parameters ParameterKey=KeyP,ParameterValue=${env.EC2KEY} ParameterKey=InstanceType,ParameterValue=t2.micro --query StackId",returnStdout: true).trim()
