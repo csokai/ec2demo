@@ -9,12 +9,12 @@ pipeline{
 
     }
     environment{
-        env="production"
+        env="demo"
     }
     stages{
         stage('Deploy Infra and Launch Instance'){
             when{
-                environment name: 'env', value: 'production'
+                environment name: 'env', value: 'demo'
             }
             steps{
                 withAWS(credentials: 'awscreds', region: "${env.AWS_DEFAULT_REGION}") {
@@ -30,6 +30,7 @@ pipeline{
                     }
                 }
             }
+        }
        // stage('Bootstrap'){
        //     steps{
 
