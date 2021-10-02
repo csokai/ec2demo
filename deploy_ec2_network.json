@@ -39,7 +39,7 @@
                 "Tags":[
                     {
                         "Key":"Name",
-                        "Value":{"Fn::Join":[",",["My","EC2 for ",{"Ref":"AWS::Region"}," and for stack ",{"Ref":"AWS::StackName"}]]}
+                        "Value":{"Fn::Join":[",",["Demo","EC2 for ",{"Ref":"AWS::Region"}," and for stack ",{"Ref":"AWS::StackName"}]]}
                     }
                 ],
                 "NetworkInterfaces":[
