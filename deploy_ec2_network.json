@@ -248,7 +248,7 @@
                 "CidrBlock":"0.0.0.0/0",
                 "Egress":false,
                 "PortRange":{"From":"80","To":"80"},
-                "NetworkAclId":{"Ref":"LabPublicNACL"},
+                "NetworkAclId":{"Ref":"DemoPublicNACL"},
                 "Protocol":"6",
                 "RuleAction":"allow"
             }
