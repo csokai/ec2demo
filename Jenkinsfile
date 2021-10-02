@@ -20,13 +20,13 @@ pipeline{
                 withAWS(credentials: 'awscreds', region: "${AWS_DEFAULT_REGION}") {
                 script {
 
-                    env.STACKID = sh(label:'',script:"aws cloudformation create-stack --stack-name demoec2instance --template-body file://deploy_ec2_network.json --parameters ParameterKey=KeyP,ParameterValue=${env.EC2KEY} ParameterKey=InstanceType,ParameterValue=t2.micro --query StackId",returnStdout: true).trim()
-                    env.STACKSTATUS=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${env.STACKID} --query Stacks[0].StackStatus",returnStdout: true).trim()
-                        while("${env.STACKSTATUS}"=='"CREATE_IN_PROGRESS"'){
+                    STACKID = sh(label:'',script:"aws cloudformation create-stack --stack-name demoec2instance --template-body file://deploy_ec2_network.json --parameters ParameterKey=KeyP,ParameterValue=${EC2KEY} ParameterKey=InstanceType,ParameterValue=t2.micro --query StackId",returnStdout: true).trim()
+                    STACKSTATUS=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${STACKID} --query Stacks[0].StackStatus",returnStdout: true).trim()
+                        while("${STACKSTATUS}"=='"CREATE_IN_PROGRESS"'){
                             sleep(20)
-                            env.STACKSTATUS=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${env.STACKID} --query Stacks[0].StackStatus",returnStdout: true).trim()
+                            STACKSTATUS=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${STACKID} --query Stacks[0].StackStatus",returnStdout: true).trim()
                         }
-                        env.INSTIP=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${env.STACKID} --query Stacks[0].Outputs[2].OutputValue",returnStdout: true).trim()
+                        INSTIP=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${STACKID} --query Stacks[0].Outputs[2].OutputValue",returnStdout: true).trim()
                     }
                 }
             }
@@ -37,7 +37,7 @@ pipeline{
        //     }
         stage('Record Instance IP/DNS'){
             steps{
-                sh "echo ${env.INSTIP}>InstanceDNS.txt"
+                sh "echo ${INSTIP}>InstanceDNS.txt"
                 archiveArtifacts 'InstanceDNS.txt'
             }
         }
@@ -47,7 +47,7 @@ pipeline{
             cleanWs disableDeferredWipeout: true, deleteDirs: true
         }
         failure{
-            sh "aws cloudformation delete-stack --stack-name ${env.STACKID}"
+            sh "aws cloudformation delete-stack --stack-name ${STACKID}"
             cleanWs disableDeferredWipeout: true, deleteDirs: true
         }
     }   
