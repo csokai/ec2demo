@@ -49,6 +49,5 @@ pipeline{
             sh "aws cloudformation delete-stack --stack-name ${env.STACKID}"
             cleanWs disableDeferredWipeout: true, deleteDirs: true
         }
-    }
     }   
 }
