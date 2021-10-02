@@ -23,7 +23,7 @@
         }
     },
     "Resources":{
-        "LabEC2":{
+        "DemoEC2":{
             "Type": "AWS::EC2::Instance",
             "DependsOn":"DemoVpc",
             "Properties":{
