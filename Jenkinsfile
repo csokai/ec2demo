@@ -2,7 +2,6 @@ pipeline{
     agent any
     parameters{
         
-        choice(name:'ENVTYPE',choices:['Nginx','NodeJS'],description:'Type of Environment to launch like Nginx, tomcat etc. This will be used for bootstrapping')
         string(name:'BUCKETNAME',description:'S3 Bucket for keys')
         string(name:'EC2KEY',description:'Key name for EC2 login')
         string(name:'AWS_DEFAULT_REGION')
@@ -31,7 +30,7 @@ pipeline{
                 }
             }
         }
-       // stage('Bootstrap'){
+       // stage('App Deploy on EC2 docker'){
        //     steps{
 
        //     }
