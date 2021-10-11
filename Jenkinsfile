@@ -9,7 +9,6 @@ pipeline{
     }
     environment{
         env="demo"
-        sshkey= credentials('sshkey')
     }
     stages{
         stage('Deploy Infra and Launch Instance'){
@@ -33,13 +32,9 @@ pipeline{
         }
         stage('App Deploy on EC2 docker'){
            steps{
-                withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey', usernameVariable: 'ubuntu')]) {
                 script {
-                        sh(label:'', script:"sleep 30")
-                        sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i $sshkey ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
-                       }
+                        sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${EC2KEY} ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
                 }
-
             }
         }
         stage('Record Instance IP/DNS'){
