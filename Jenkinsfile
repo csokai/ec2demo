@@ -9,6 +9,9 @@ pipeline{
     }
     environment{
         env="demo"
+        STACKID=""
+        STACKSTATUS=""
+        INSTIP=""
     }
     stages{
         stage('Deploy Infra and Launch Instance'){
@@ -27,13 +30,6 @@ pipeline{
                         }
                         INSTIP=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${STACKID} --query Stacks[0].Outputs[2].OutputValue",returnStdout: true).trim()
                     }
-                }
-            }
-        }
-        stage('App Deploy on EC2 docker'){
-           steps{
-                script {
-                        sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${EC2KEY} ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
                 }
             }
         }
