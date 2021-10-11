@@ -30,10 +30,14 @@ pipeline{
                 }
             }
         }
-       // stage('App Deploy on EC2 docker'){
-       //     steps{
+        stage('App Deploy on EC2 docker'){
+           steps{
+                script {
+                        sh(label:'', script:"scp -i ${EC2KEY} ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
+                       }
 
-       //     }
+            }
+        }
         stage('Record Instance IP/DNS'){
             steps{
                 sh "echo ${INSTIP}>InstanceDNS.txt"

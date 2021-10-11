@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  pwdgenerator:
+    container_name: pwdgenerator
+    build:
+      context: ./app
+      dockerfile: password.Dockerfile
+    ports:
+      - 8080:8080
