@@ -33,10 +33,10 @@ pipeline{
         }
         stage('App Deploy on EC2 docker'){
            steps{
-                withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey', usernameVariable: 'ubuntu')]) {
                 script {
                         sh(label:'', script:"sleep 30")
-                        sh(label:'', script:"scp -o StrictHostKeyChecking=no -i $sshkey ${WORKSPACE}/app ubuntu@${INSTIP}:/home/ubuntu/")
+                        sh(label:'', script:"scp -o StrictHostKeyChecking=no -i $sshkey ${WORKSPACE}/app "$ubuntu@"${INSTIP}:/home/ubuntu/")
                        }
                 }
 
