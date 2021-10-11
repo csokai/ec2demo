@@ -36,7 +36,7 @@ pipeline{
                 withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey')]) {
                 script {
                         sh(label:'', script:"sleep 30")
-                        sh(label:'', script:"scp -o StrictHostKeyChecking=no -i $sshkey ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
+                        sh(label:'', script:"scp -o StrictHostKeyChecking=no -i $sshkey ${WORKSPACE}/app ubuntu@${INSTIP}:/home/ubuntu/")
                        }
                 }
 
