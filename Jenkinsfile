@@ -9,6 +9,7 @@ pipeline{
     }
     environment{
         env="demo"
+        sshkey= credentials('sshkey')
     }
     stages{
         stage('Deploy Infra and Launch Instance'){
@@ -34,7 +35,7 @@ pipeline{
            steps{
                 withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey')]) {
                 script {
-                        sh(label:'', script:"scp -i ${sshkey} ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
+                        sh(label:'', script:"scp -i $sshkey ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
                        }
                 }
 
