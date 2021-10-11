@@ -32,7 +32,7 @@ pipeline{
         }
         stage('App Deploy on EC2 docker'){
            steps{
-                withCredentials([sshUserPrivateKey(credentialsId: "sshkey")]) {
+                withCredentials([sshUserPrivateKey(credentialsId: "sshkey", keyFileVariable: 'sshkey')]) {
                 script {
                         sh(label:'', script:"scp -i ${sshkey} ${WORKSPACE}/app ${INSTIP}:/home/ubuntu/")
                        }
