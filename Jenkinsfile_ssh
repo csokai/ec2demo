@@ -18,9 +18,10 @@ pipeline {
                 }
                 }
             
-                withCredentials([sshUserPrivateKey(credentialsId: 'ec2ssh', keyFileVariable: 'SSHKEY')]) {
-                    sh "chmod 400 $SSHKEY"
-                    sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${SSHKEY} ${WORKSPACE}/app ${EC2IP}:/home/ubuntu/")
+                sshagent(credentials: ['ec2ssh']) {
+                    //sh "chmod 400 $SSHKEY"
+                    //sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${SSHKEY} ${WORKSPACE}/app ${EC2IP}:/home/ubuntu/")
+                    sh(label:'', script:"sh ssh -o StrictHostKeyChecking=no -l ubuntu ${EC2IP} uname -a")
                 }
             }
         }
