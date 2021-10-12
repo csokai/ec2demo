@@ -52,11 +52,7 @@
                     "\n","apt-get update","\n",
                     "\n","apt-get install -y docker-ce docker-ce-cli containerd.io","\n",
                     "\n","curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose","\n",
-                    "\n","chmod +x /usr/local/bin/docker-compose","\n",
-                    "\n","cd /home/ubuntu","\n",
-                    "\n","git clone https://github.com/csokai/ec2demo.git","\n",
-                    "\n","cd ec2demo","\n",
-                    "\n"," sed -i 's/DEBUG = False/DEBUG = True/g' app/password_generator/password_generator/settings.py","\n"
+                    "\n","chmod +x /usr/local/bin/docker-compose","\n"
                     ]]}
               },
                 "NetworkInterfaces":[
