@@ -19,6 +19,7 @@ pipeline {
                 }
             
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2ssh', keyFileVariable: 'SSHKEY')]) {
+                    sh "chmod 400 $SSHKEY"
                     sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${SSHKEY} ${WORKSPACE}/app ${EC2IP}:/home/ubuntu/")
                 }
             }
