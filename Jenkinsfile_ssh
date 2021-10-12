@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    parameters{
+        
+        string(name:'BUCKETNAME',description:'S3 Bucket for keys')
+        string(name:'EC2KEY',description:'Key name for EC2 login')
+        string(name:'AWS_DEFAULT_REGION')
+        string(name:'STACKNAME')
+
+    }
+
+    stages {
+        stage('get cf stack') {
+            steps {
+                withAWS(credentials: 'awscreds', region: "${AWS_DEFAULT_REGION}") {
+                script {
+                    EC2IP=sh(label:'',script:"aws cloudformation describe-stacks --stack-name ${STACKNAME} --query Stacks[0].Outputs[2].OutputValue",returnStdout: true).trim()
+                }
+                }
+            
+                withCredentials([sshUserPrivateKey(credentialsId: 'ec2ssh', keyFileVariable: 'SSHKEY')]) {
+                    sh(label:'', script:"scp -o user=ubuntu -o StrictHostKeyChecking=no -i ${SSHKEY} ${WORKSPACE}/app ${EC2IP}:/home/ubuntu/")
+                }
+            }
+        }
+    }
+}
